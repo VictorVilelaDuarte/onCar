@@ -34,3 +34,27 @@ export const InputSearch = styled.input`
   border-radius: 4px;
   padding-left: 15px;
 `;
+
+export const MainDiv = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  /* width: 100%; */
+  background: #e5e5e5;
+  padding: 10px;
+`;
+
+export const ListDiv = styled.div`
+  width: 64%;
+  height: 570px;
+  background: #fff;
+`;
+
+export const DetailDiv = styled.div`
+  width: 34%;
+  height: 570px;
+  background: #fff;
+`;

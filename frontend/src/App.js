@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {} from "react-bootstrap";
 
-import { Container, Header, Name, InputSearch } from "./styles";
+import {
+  Container,
+  Header,
+  Name,
+  InputSearch,
+  MainDiv,
+  DetailDiv,
+  ListDiv,
+} from "./styles";
 
 function App() {
   return (
@@ -10,6 +18,10 @@ function App() {
         <Name>Victor</Name>
       </Header>
       <InputSearch placeholder="Buscar Veículo" />
+      <MainDiv>
+        <ListDiv></ListDiv>
+        <DetailDiv></DetailDiv>
+      </MainDiv>
     </Container>
   );
 }
