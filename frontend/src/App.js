@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Table, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { Form } from "@unform/web";
+import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 
 import GlobalStyle from "./global";
 import api from "./services/api";
+import Input from "./components/Input";
+import TextArea from "./components/TextArea";
+import Switch from "./components/Switch";
 
 import {
   Container,
@@ -30,13 +35,11 @@ import {
   TitleDetail,
   BrandYearTitle,
   FormDiv,
-  Input,
   InputRow,
-  InputText,
-  Switch,
 } from "./styles";
 
 function App() {
+  const formRef = useRef(null);
   const [veiculos, setVeiculos] = useState([]);
   const [selectedVeiculo, setSelectedVeiculo] = useState({});
   const [veiculoToEdit, setVeiculoToEdit] = useState({});
@@ -173,19 +176,31 @@ function App() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormDiv>
-            <Input placeholder="Veículo" />
-            <InputRow>
-              <Input placeholder="Marca" />
-              <Input placeholder="Ano" type="number" />
-            </InputRow>
-            <InputText placeholder="Descrição do veículo" rows={5} />
-            <Switch type="switch" id="custom-switch" label="Veículo vendido" />
-          </FormDiv>
+          <Form ref={formRef} initialData={veiculoToEdit}>
+            <FormDiv>
+              {console.log(veiculoToEdit)}
+              <Input placeholder="Veículo" name="veiculo" />
+              <InputRow>
+                <Input placeholder="Marca" name="marca" />
+                <Input placeholder="Ano" type="number" name="ano" />
+              </InputRow>
+              <TextArea
+                placeholder="Descrição do veículo"
+                rows={8}
+                name="descricao"
+              />
+              <Switch
+                name="vendido"
+                type="switch"
+                id="custom-switch"
+                label="Veículo vendido"
+              />
+            </FormDiv>
+          </Form>
+          <Button style={{ marginTop: 30 }} variant="primary">
+            Salvar
+          </Button>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary">Salvar</Button>
-        </Modal.Footer>
       </Modal>
     </Container>
   );
