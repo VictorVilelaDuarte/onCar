@@ -133,6 +133,7 @@ function App() {
           .post("/veiculo", json)
           .then((res) => {
             toast.info(res.data.message);
+            setShowEdit(!showEdit);
           })
           .catch((err) => {
             toast.error(err.data.message);
@@ -157,6 +158,13 @@ function App() {
         <Name>Victor</Name>
       </Header>
       <InputSearch placeholder="Buscar Veículo" />
+      <Button
+        type="submit"
+        onClick={() => setShowEdit(!showEdit)}
+        variant="primary"
+      >
+        Novo Veículo
+      </Button>
       <MainDiv>
         <ListDiv>
           <TitleDiv>Lista de veículos</TitleDiv>
