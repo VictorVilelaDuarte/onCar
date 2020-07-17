@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FormCheck } from "react-bootstrap";
 
 export const Container = styled.div`
   height: 100%;
@@ -29,12 +30,55 @@ export const Name = styled.div`
   border-right-width: 1px;
 `;
 
+// export const
+
 export const InputSearch = styled.input`
   margin-top: 20px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding-left: 15px;
+`;
+
+export const FormDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const InputRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const Input = styled.input`
+  width: 48%;
+  height: 35px;
+  margin-top: 30px;
+  padding-left: 15px;
+  border: 1px solid #858585;
+  border-radius: 0px;
+`;
+
+export const InputText = styled.textarea`
+  width: 100%;
+  margin-top: 30px;
+  padding-left: 15px;
+  border: 1px solid #858585;
+  border-radius: 0px;
+  padding-top: 5px;
+`;
+
+export const Switch = styled(FormCheck)`
+  margin-top: 30px;
+  height: 10px !important;
+
+  label {
+    font-size: 15px;
+    padding-top: 3px;
+  }
 `;
 
 export const MainDiv = styled.div`

@@ -29,13 +29,19 @@ import {
   DescriptionDetail,
   TitleDetail,
   BrandYearTitle,
+  FormDiv,
+  Input,
+  InputRow,
+  InputText,
+  Switch,
 } from "./styles";
 
 function App() {
   const [veiculos, setVeiculos] = useState([]);
   const [selectedVeiculo, setSelectedVeiculo] = useState({});
+  const [veiculoToEdit, setVeiculoToEdit] = useState({});
   const [showDelete, setShowDelete] = useState(false);
-  const [reload, setReload] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
     api
@@ -49,20 +55,37 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, [reload]);
+    console.log(veiculos);
+  }, [showEdit, showDelete]);
 
   function deleteVeiculo() {
     api
-      .delete(`/veiculo/${selectedVeiculo.id}`)
+      .delete(`/veiculo/${veiculoToEdit.id}`)
       .then((res) => {
+        setVeiculos();
         toast.info(res.data.message);
-        setReload(!reload);
+        setShowDelete(!showDelete);
+      })
+      .catch((err) => {
+        setShowDelete(!showDelete);
+        console.log(err);
+      });
+  }
+
+  function getVeiculo(id, type) {
+    api
+      .get(`/veiculo/${id}`)
+      .then((res) => {
+        setVeiculoToEdit(res.data.data[0]);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    setShowDelete(!showDelete);
+    if (type === "edit") {
+      setShowEdit(!showEdit);
+    } else {
+      setShowDelete(!showDelete);
+    }
   }
 
   return (
@@ -78,27 +101,31 @@ function App() {
           <TitleDiv>Lista de veículos</TitleDiv>
           <Table bordered hover striped>
             <tbody>
-              {veiculos.map((item) => (
-                <tr onClick={() => setSelectedVeiculo(item)}>
-                  <ListItem>
-                    <ItemData>
-                      <CarBrand>{item.marca}</CarBrand>
-                      <CarName>{item.veiculo}</CarName>
-                      <CarYear>{item.ano}</CarYear>
-                    </ItemData>
-                    <ItemEdit>
-                      <FaEdit size={25} />
-                    </ItemEdit>
-                    <ItemDelete>
-                      <FaTrashAlt
-                        size={22}
-                        color="#f00"
-                        onClick={() => setShowDelete(!showDelete)}
-                      />
-                    </ItemDelete>
-                  </ListItem>
-                </tr>
-              ))}
+              {veiculos &&
+                veiculos.map((item) => (
+                  <tr>
+                    <ListItem>
+                      <ItemData onClick={() => setSelectedVeiculo(item)}>
+                        <CarBrand>{item.marca}</CarBrand>
+                        <CarName>{item.veiculo}</CarName>
+                        <CarYear>{item.ano}</CarYear>
+                      </ItemData>
+                      <ItemEdit>
+                        <FaEdit
+                          size={25}
+                          onClick={() => getVeiculo(item.id, "edit")}
+                        />
+                      </ItemEdit>
+                      <ItemDelete>
+                        <FaTrashAlt
+                          size={22}
+                          color="#f00"
+                          onClick={() => getVeiculo(item.id, "delete")}
+                        />
+                      </ItemDelete>
+                    </ListItem>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </ListDiv>
@@ -130,13 +157,34 @@ function App() {
       </MainDiv>
       <Modal show={showDelete} onHide={() => setShowDelete(!showDelete)}>
         <Modal.Header closeButton>
-          <Modal.Title>{selectedVeiculo.veiculo}</Modal.Title>
+          <Modal.Title>{veiculoToEdit.veiculo}</Modal.Title>
         </Modal.Header>
         <Modal.Body>Tem certeza que deseja detelar esse veículo?</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={() => deleteVeiculo()}>
             Deletar
           </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showEdit} onHide={() => setShowEdit(!showEdit)}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {veiculoToEdit ? veiculoToEdit.veiculo : "Novo veículo"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormDiv>
+            <Input placeholder="Veículo" />
+            <InputRow>
+              <Input placeholder="Marca" />
+              <Input placeholder="Ano" type="number" />
+            </InputRow>
+            <InputText placeholder="Descrição do veículo" rows={5} />
+            <Switch type="switch" id="custom-switch" label="Veículo vendido" />
+          </FormDiv>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary">Salvar</Button>
         </Modal.Footer>
       </Modal>
     </Container>
