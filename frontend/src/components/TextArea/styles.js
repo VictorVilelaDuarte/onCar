@@ -8,3 +8,8 @@ export const InputText = styled.textarea`
   border-radius: 0px;
   padding-top: 5px;
 `;
+
+export const ErrorSpan = styled.span`
+  color: #c53030;
+  margin-top: 5px;
+`;

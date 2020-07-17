@@ -58,7 +58,8 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-    console.log(veiculos);
+
+    setVeiculoToEdit({});
   }, [showEdit, showDelete]);
 
   function deleteVeiculo() {
@@ -88,6 +89,63 @@ function App() {
       setShowEdit(!showEdit);
     } else {
       setShowDelete(!showDelete);
+    }
+  }
+
+  async function handleSubmit(data) {
+    try {
+      formRef.current.setErrors({});
+      const schema = Yup.object().shape({
+        veiculo: Yup.string().required("O nome do veículo é obrigatório"),
+        marca: Yup.string().required("A marca do veículo é obrigatória"),
+        descricao: Yup.string().required(
+          "A descricao do veículo é obrigatória"
+        ),
+        ano: Yup.string().required("O ano do veículo é obrigatória"),
+        vendido: Yup.bool(),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      const json = {
+        veiculo: data.veiculo,
+        marca: data.marca,
+        ano: data.ano,
+        descricao: data.descricao,
+        vendido: data.vendido ? "1" : "0",
+      };
+
+      if (veiculoToEdit.veiculo) {
+        api
+          .put(`/veiculo/${veiculoToEdit.id}`, json)
+          .then((res) => {
+            toast.info(res.data.message);
+            setShowEdit(!showEdit);
+          })
+          .catch((err) => {
+            toast.error(err.data.message);
+            setShowEdit(!showEdit);
+          });
+      } else {
+        api
+          .post("/veiculo", json)
+          .then((res) => {
+            toast.info(res.data.message);
+          })
+          .catch((err) => {
+            toast.error(err.data.message);
+          });
+      }
+    } catch (err) {
+      const validationErrors = {};
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        formRef.current.setErrors(validationErrors);
+      }
     }
   }
 
@@ -169,14 +227,18 @@ function App() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showEdit} onHide={() => setShowEdit(!showEdit)}>
+      <Modal size="lg" show={showEdit} onHide={() => setShowEdit(!showEdit)}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {veiculoToEdit ? veiculoToEdit.veiculo : "Novo veículo"}
+            {veiculoToEdit.veiculo ? veiculoToEdit.veiculo : "Novo veículo"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form ref={formRef} initialData={veiculoToEdit}>
+          <Form
+            ref={formRef}
+            initialData={veiculoToEdit}
+            onSubmit={handleSubmit}
+          >
             <FormDiv>
               {console.log(veiculoToEdit)}
               <Input placeholder="Veículo" name="veiculo" />
@@ -196,10 +258,10 @@ function App() {
                 label="Veículo vendido"
               />
             </FormDiv>
+            <Button style={{ marginTop: 30 }} type="submit" variant="primary">
+              Salvar
+            </Button>
           </Form>
-          <Button style={{ marginTop: 30 }} variant="primary">
-            Salvar
-          </Button>
         </Modal.Body>
       </Modal>
     </Container>
