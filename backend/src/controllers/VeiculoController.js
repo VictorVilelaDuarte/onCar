@@ -53,8 +53,9 @@ class VeiculoController {
 
   async update(req, res) {
     try {
+      const { id } = req.params;
       const { veiculo, marca, ano, descricao, vendido } = req.body;
-      await knex("veiculos").update({
+      await knex("veiculos").where({ id }).update({
         veiculo,
         marca,
         ano,

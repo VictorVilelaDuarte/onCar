@@ -9,8 +9,8 @@ routes.get("/", (req, res) => {
 });
 
 routes.post("/veiculo", VeiculoController.create);
-routes.put("/veiculo", VeiculoController.update);
 routes.get("/veiculo", VeiculoController.index);
+routes.put("/veiculo/:id", VeiculoController.update);
 routes.get("/veiculo/:id", VeiculoController.show);
 routes.delete("/veiculo/:id", VeiculoController.delete);
 
