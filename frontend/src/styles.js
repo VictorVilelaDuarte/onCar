@@ -29,14 +29,40 @@ export const Name = styled.div`
   border-right-width: 1px;
 `;
 
-// export const
+export const SearchDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  margin-top: 20px;
+`;
+
+export const SearchDivFields = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  height: 40px;
+`;
+
+export const CategorySearch = styled.select`
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-left: 5px;
+  height: 100%;
+  width: 260px;
+`;
 
 export const InputSearch = styled.input`
-  margin-top: 20px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding-left: 15px;
+  height: 100%;
+  width: 260px;
 `;
 
 export const FormDiv = styled.div`

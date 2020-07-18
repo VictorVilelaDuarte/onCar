@@ -16,6 +16,8 @@ import {
   Container,
   Header,
   Name,
+  SearchDiv,
+  CategorySearch,
   InputSearch,
   MainDiv,
   DetailDiv,
@@ -36,6 +38,7 @@ import {
   BrandYearTitle,
   FormDiv,
   InputRow,
+  SearchDivFields,
 } from "./styles";
 
 function App() {
@@ -45,6 +48,7 @@ function App() {
   const [veiculoToEdit, setVeiculoToEdit] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     api
@@ -150,6 +154,8 @@ function App() {
     }
   }
 
+  function getVeiculosWithFilter() {}
+
   return (
     <Container>
       <ToastContainer />
@@ -157,14 +163,43 @@ function App() {
       <Header>
         <Name>Victor</Name>
       </Header>
-      <InputSearch placeholder="Buscar Veículo" />
-      <Button
-        type="submit"
-        onClick={() => setShowEdit(!showEdit)}
-        variant="primary"
-      >
-        Novo Veículo
-      </Button>
+      <SearchDiv>
+        <SearchDivFields>
+          <CategorySearch onChange={(e) => setFilter(e.target.value)}>
+            <option>Selecione uma opção</option>
+            <option value="veiculo">Modelo</option>
+            <option value="marca">Marca</option>
+            <option value="ano">Ano</option>
+          </CategorySearch>
+          <InputSearch
+            placeholder={
+              filter ? `Digite ${filter}` : `Selecione um filtro para pesquisar`
+            }
+          />
+          <Button
+            type="submit"
+            onClick={() => setShowEdit(!showEdit)}
+            variant="info"
+          >
+            Pesquisar
+          </Button>
+          <Button
+            // style={{ height: "100%" }}
+            type="submit"
+            // onClick={() => setShowEdit(!showEdit)}
+            variant="secondary"
+          >
+            Limpar
+          </Button>
+        </SearchDivFields>
+        <Button
+          type="submit"
+          onClick={() => setShowEdit(!showEdit)}
+          variant="primary"
+        >
+          Novo Veículo
+        </Button>
+      </SearchDiv>
       <MainDiv>
         <ListDiv>
           <TitleDiv>Lista de veículos</TitleDiv>
