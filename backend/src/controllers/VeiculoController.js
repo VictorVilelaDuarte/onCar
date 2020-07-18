@@ -91,5 +91,35 @@ class VeiculoController {
       });
     }
   }
+
+  async search(req, res) {
+    try {
+      const { key, value } = req.query;
+
+      const result = await knex
+        .select()
+        .from("veiculos")
+        .where((builder) => {
+          switch (key) {
+            case "veiculo":
+              builder.where("veiculo", value);
+              break;
+            case "marca":
+              builder.where("marca", value);
+              break;
+            case "ano":
+              builder.where("ano", value);
+              break;
+          }
+        });
+      return res.status(200).json({
+        data: result,
+      });
+    } catch (err) {
+      return res.status(400).json({
+        message: "Erro ao buscar veiculo.",
+      });
+    }
+  }
 }
 export default new VeiculoController();

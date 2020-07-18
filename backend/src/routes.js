@@ -12,6 +12,7 @@ routes.post("/veiculo", VeiculoController.create);
 routes.get("/veiculo", VeiculoController.index);
 routes.put("/veiculo/:id", VeiculoController.update);
 routes.get("/veiculo/:id", VeiculoController.show);
+routes.get("/veiculoSearch", VeiculoController.search);
 routes.delete("/veiculo/:id", VeiculoController.delete);
 
 export default routes;
