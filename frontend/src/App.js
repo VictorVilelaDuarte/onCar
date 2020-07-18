@@ -49,6 +49,7 @@ function App() {
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [filter, setFilter] = useState("");
+  const [filterStr, setFilterStr] = useState("");
 
   useEffect(() => {
     api
@@ -154,7 +155,35 @@ function App() {
     }
   }
 
-  function getVeiculosWithFilter() {}
+  function getVeiculosWithFilter() {
+    api
+      .get(`/veiculoSearch?key=${filter}&value=${filterStr}`)
+      .then((res) => {
+        setVeiculos([]);
+        res.data.data.map((item) => {
+          setVeiculos((prevVeiculos) => [...prevVeiculos, item]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function clear() {
+    api
+      .get("/veiculo")
+      .then((res) => {
+        setVeiculos([]);
+        res.data.data.map((item) => {
+          setVeiculos((prevVeiculos) => [...prevVeiculos, item]);
+          setFilter("");
+          setFilterStr("");
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <Container>
@@ -165,7 +194,10 @@ function App() {
       </Header>
       <SearchDiv>
         <SearchDivFields>
-          <CategorySearch onChange={(e) => setFilter(e.target.value)}>
+          <CategorySearch
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
             <option>Selecione uma opção</option>
             <option value="veiculo">Modelo</option>
             <option value="marca">Marca</option>
@@ -175,20 +207,18 @@ function App() {
             placeholder={
               filter ? `Digite ${filter}` : `Selecione um filtro para pesquisar`
             }
+            onChange={(e) => setFilterStr(e.target.value)}
+            value={filterStr}
           />
           <Button
+            disabled={filterStr.length < 2}
             type="submit"
-            onClick={() => setShowEdit(!showEdit)}
+            onClick={() => getVeiculosWithFilter()}
             variant="info"
           >
             Pesquisar
           </Button>
-          <Button
-            // style={{ height: "100%" }}
-            type="submit"
-            // onClick={() => setShowEdit(!showEdit)}
-            variant="secondary"
-          >
+          <Button type="submit" variant="secondary" onClick={() => clear()}>
             Limpar
           </Button>
         </SearchDivFields>
