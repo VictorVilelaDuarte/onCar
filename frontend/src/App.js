@@ -313,7 +313,6 @@ function App() {
             onSubmit={handleSubmit}
           >
             <FormDiv>
-              {console.log(veiculoToEdit)}
               <Input placeholder="Veículo" name="veiculo" />
               <InputRow>
                 <Input placeholder="Marca" name="marca" />

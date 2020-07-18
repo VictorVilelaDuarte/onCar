@@ -7,7 +7,7 @@ module.exports = {
       host: "127.0.0.1",
       database: "oncar",
       user: "root",
-      password: "09251029",
+      password: "*****",
     },
     migrations: {
       tableName: "knex_migration",
