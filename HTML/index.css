@@ -1,0 +1,195 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.header {
+    height: 60px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.name {
+    color: #586496;
+    font-size: 35px;
+    width: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-right-color: #ccc;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+.searchDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.searchDivFields {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    height: 40px;
+}
+
+.categorySearch {
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding-left: 5px;
+    height: 100%;
+    width: 260px;
+}
+
+.inputSearch {
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding-left: 15px;
+    height: 100%;
+    width: 260px;
+}
+
+.formDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.mainDiv {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background: #e5e5e5;
+    padding: 10px;
+}
+
+.listDiv {
+    width: 59%;
+    height: 570px;
+    background: #fff;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.detailDiv {
+    width: 40%;
+    height: 570px;
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleDiv {
+    font-weight: bold;
+    font-size: 15px;
+    width: 100%;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+}
+
+.listItem {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.itemData {
+    width: 80%;
+    display: flex;
+    height: 65px;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.itemEdit {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemDelete {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carName {
+    color: #586496;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.carBrand {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.carYear {
+    font-size: 13px;
+}
+
+.titleDetail {
+    color: #586496;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.brandYearDiv {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    justify-content: space-between;
+}
+
+.brandYear {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.brandYearTitle {
+    color: #a7a7a7;
+    font-size: 13px;
+}
+
+.brandYearText {
+    font-size: 15px;
+}
+
+.descriptionDetail {
+    margin-top: 25px;
+    font-size: 15px;
+}
