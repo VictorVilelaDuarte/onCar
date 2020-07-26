@@ -127,7 +127,7 @@
     display: flex;
     height: 65px;
     flex-direction: column;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
 .itemEdit {
@@ -148,15 +148,18 @@
     color: #586496;
     font-weight: bold;
     font-size: 16px;
+    margin: 0px;
 }
 
 .carBrand {
     font-size: 15px;
     font-weight: bold;
+    margin: 0px;
 }
 
 .carYear {
     font-size: 13px;
+    margin: 0px;
 }
 
 .titleDetail {

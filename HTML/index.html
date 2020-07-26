@@ -4,6 +4,8 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -13,118 +15,84 @@
         </div>
         <div class="searchDiv">
             <div class="serachDivFields">
-                <select class="categorySearch">
-            <option>Selecione uma opção</option>
-            <option value="veiculo">Modelo</option>
-            <option value="marca">Marca</option>
-            <option value="ano">Ano</option>
-        </select>
-                <input class="inputSearch" placeholder="Selecione um filtro para pesquisar" />
-                <button type="submit" class="btn btn-info">
+              <select id="filter" class="categorySearch">
+                <option>Selecione uma opção</option>
+                <option value="veiculo">Modelo</option>
+                <option value="marca">Marca</option>
+                <option value="ano">Ano</option>
+              </select>
+              <input id="filterStr" class="inputSearch" placeholder="Selecione um filtro para pesquisar" />
+              <button type="submit" onclick="getVeiculosWithFilter()" class="btn btn-info">
             Pesquisar
           </button>
-                <button type="submit" class="btn btn-secondary">
-            Limpar
+            <button type="submit" onclick="getAllVehicles()" class="btn btn-secondary">
+              Limpar
           </button>
             </div>
-            <button type="submit" class="btn btn-info">
+            <button type="submit" data-toggle="modal" data-target="#newModal" class="btn btn-info">
           Novo Veículo
       </button>
         </div>
         <div class="mainDiv">
             <div class="listDiv">
                 <div class="titleDiv">Lista de veículos</div>
-                <Table bordered hover striped>
-                    <tbody>
-                        <tr>
-                            <td class="listItem">
-                                <div class="itemData">
-                                    <p class="carBrand">{item.marca}</p>
-                                    <p class="carName">{item.veiculo}</p>
-                                    <p class="carYear">{item.ano}</p>
-                                </div>
-                                <div class="itemEdit">
-                                    <!-- <FaEdit size={25} onClick={()=> getVeiculo(item.id, "edit")} /> -->
-                                </div>
-                                <div class="itemDelete">
-                                    <!-- <FaTrashAlt size={22} color="#f00" onClick={()=> getVeiculo(item.id, "delete")} /> -->
-                                </div>
-                            </td>
-                        </tr>
+                <table class="table bordered hover striped">
+                    <tbody id="vehicleList">
                     </tbody>
-                </Table>
+                  </table>
             </div>
-            <div class="detailDiv">
-                <div class="titleDiv">Detalhes do veículo</div>
-                <div class="titleDetail">{selectedVeiculo.veiculo}</div>
-                <div class="brandYearDiv">
-                    <div class="brandYearDiv">
-                        <div class="brandYear">
-                            <div class="brandYearTtile">MARCA</div>
-                            <div class="brandYearText">{selectedVeiculo.marca}</div>
-                        </div>
-                    </div>
-                    <div class="brandYearDiv">
-                        <div class="brandYear">
-                            <div class="brandYeatTitle">ANO</div>
-                            <div class="brandYearText">{selectedVeiculo.ano}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="descriptionDetail">{selectedVeiculo.descricao}</div>
+            <div class="detailDiv" id="detailDiv">
+                
             </div>
         </div>
-        <!-- <Modal show={showDelete} onHide={() => setShowDelete(!showDelete)}>
-        <Modal.Header closeButton>
-          <Modal.Title>{veiculoToEdit.veiculo}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Tem certeza que deseja detelar esse veículo?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={() => deleteVeiculo()}>
-            Deletar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal size="lg" show={showEdit} onHide={() => setShowEdit(!showEdit)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {veiculoToEdit.veiculo ? veiculoToEdit.veiculo : "Novo veículo"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form
-            ref={formRef}
-            initialData={veiculoToEdit}
-            onSubmit={handleSubmit}
-          >
-            <FormDiv>
-              <Input placeholder="Veículo" name="veiculo" />
-              <InputRow>
-                <Input placeholder="Marca" name="marca" />
-                <Input placeholder="Ano" type="number" name="ano" />
-              </InputRow>
-              <TextArea
-                placeholder="Descrição do veículo"
-                rows={8}
-                name="descricao"
-              />
-              <Switch
-                name="vendido"
-                type="switch"
-                id="custom-switch"
-                label="Veículo vendido"
-              />
-            </FormDiv>
-            <Button style={{ marginTop: 30 }} type="submit" variant="primary">
-              Salvar
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal> -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                Tem certeza que deseja detelar esse veículo?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="deteleVehicle()">Deletar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+            <form class="form-group" method="POST" >
+              <div class="formDiv">
+                <input id="veiculo" class="form-control" placeholder="Veículo" name="veiculo" />
+                <InputRow>
+                  <input id="marca" class="form-control" placeholder="Marca" name="marca" />
+                  <input id="ano" class="form-control" placeholder="Ano" type="number" name="ano" />
+                </InputRow>
+                <textarea
+                  class="form-control"
+                  placeholder="Descrição do veículo"
+                  rows={8}
+                  name="descricao"
+                  id="descricao"
+                ></textarea> 
+                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+              </div>
+              <button class="btn btn-primary" style="margin-top: 30px;" onclick="saveVehicle()" variant="primary">
+                Salvar
+              </button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./index.js"></script>
 
 </html>
